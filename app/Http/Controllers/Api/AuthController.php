@@ -1,0 +1,48 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Models\Staffaccount;
+use Illuminate\Http\Request;
+use App\Services\ResponsesApi;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+
+class AuthController extends Controller
+{
+   public function login(Request $request){
+     try {
+        $validator = Validator::make(
+            $request->all(),
+            [
+              'email'=>'required|email',
+              'password'=>'required|min:6|max:15'
+            ]
+        );
+
+        if ($validator->fails()) {
+           return ResponsesApi::error($validator->errors(),422);
+        }
+
+        $staff = Staffaccount::where('email',$request->email)->first();
+
+        if (!$staff) {
+           return ResponsesApi::error('Your Password Or Email is incorrect!',422);
+        }
+        $test_pass = Hash::check($request->password, $staff->password);
+          if (!$test_pass) {
+           return ResponsesApi::error('Your Password Or Email is incorrect!',422);
+        }
+    $staff->token()->delete();
+
+    $token = $staff->createToken('api_token')->plainTextToken;
+
+    return ResponsesApi::data(null,'token',$token);
+
+     } catch (\Exception $e) {
+     return ResponsesApi::error('Error try again!'.$e->getMessage(),500);
+     }
+
+   }
+}
