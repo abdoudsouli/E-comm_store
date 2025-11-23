@@ -12,7 +12,10 @@ class Role extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'role_name'
+        'role_name',
+        'display_name',
+        'created_by',
+        'updated_by'
     ];
 
     public function staffaccounts(){

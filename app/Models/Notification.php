@@ -12,7 +12,8 @@ class Notification extends Model
    protected $fillable = [
     'title',
      'content',
-      'seen',
+      'is_read',
+      'type',
        'notification_expiry_date',
         'receive_time',
    ];
