@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('permission_staffaccount', function (Blueprint $table) {
+        Schema::create('permissions_staffaccounts', function (Blueprint $table) {
             $table->id();
-            $table->string('created_by')->nullable();
+            $table->string('created_by');
             $table->string('updated_by')->nullable();
             $table->timestamps();
             $table->softDeletes();

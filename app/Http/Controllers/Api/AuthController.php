@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Staffaccount;
 use Illuminate\Http\Request;
-use App\Services\ResponsesApi;
+
+use App\Helper\ResponsesApi;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -34,9 +35,9 @@ class AuthController extends Controller
           if (!$test_pass) {
            return ResponsesApi::error('Your Password Or Email is incorrect!',422);
         }
-    $staff->token()->delete();
+    $staff->tokens()->delete();
 
-    $token = $staff->createToken('api_token')->plainTextToken;
+$token = $staff->createToken('staff-token')->plainTextToken;
 
     return ResponsesApi::data(null,'token',$token);
 

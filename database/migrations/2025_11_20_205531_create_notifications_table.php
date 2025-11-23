@@ -15,14 +15,16 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('content');
-            $table->enum('seen',['yes','no'])->default('no');
+            //$table->enum('is_read',['yes','no'])->default('no');
+            $table->boolean('is_read')->default(false);
+            $table->string('type')->nullable(); // info, success, warning, error
             $table->date('notification_expiry_date');
-            $table->datetime('receive_time');
+            $table->datetime('receive_time')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreignId('staffaccount_id')
-            ->constained()
+            ->constained('staffaccounts')
             ->cascadeOnDelete();
         });
     }
