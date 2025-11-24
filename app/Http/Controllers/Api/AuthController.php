@@ -39,7 +39,7 @@ class AuthController extends Controller
 
     $token = $staff->createToken('staff-token')->plainTextToken;
 
-    return ResponsesApi::data(null,'token',$token);
+    return ResponsesApi::data($token);
 
      } catch (\Exception $e) {
      return ResponsesApi::error('Error : could not login!',500);
@@ -49,7 +49,7 @@ class AuthController extends Controller
    public function logout(Request $request){
         try {
           $request->user()->tokens()->delete();
-          return ResponsesApi::success(null,'Logged out from all devices successfully');
+          return ResponsesApi::success('Logged out from all devices successfully');
         }  catch (\Exception $e) {
         return ResponsesApi::error('Error : could not login!',500);
         }

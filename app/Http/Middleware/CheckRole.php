@@ -23,7 +23,6 @@ class CheckRole
         if ($staff_account->role->role_name !== $role) {
             return response()->json([
             'message'=>"Access denied. can access this resources.",
-            'data'=>$staff_account->role->role_name
             ],401);
          }
         return $next($request);
