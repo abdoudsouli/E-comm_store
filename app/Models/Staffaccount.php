@@ -22,7 +22,7 @@ class Staffaccount extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'firt_name',
+        'first_name',
         'last_name',
         'phone_number',
         'email',
@@ -40,6 +40,7 @@ class Staffaccount extends Model
     protected $hidden = [
         'password',
         'remember_token',
+        'deleted_at',
     ];
 
     /**
