@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\RolesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
@@ -46,6 +47,13 @@ Route::middleware('CheckRole:super_admin')->group(function(){
        Route::post('/{staff_id}/account',[StaffaccountPermissionController::class,'create_permission_account']);
         Route::patch('/{staff_id}/account',[StaffaccountPermissionController::class,'edit_permission_account']);
      });
+      //SatffAccountPermission
+      Route::prefix('role')->group(function(){
+         Route::get('/',[RolesController::class,'index']);
+        Route::post('/create',[RolesController::class,'create']);
+         Route::get('/{id}',[RolesController::class,'show']);
+          Route::patch('/edit',[RolesController::class,'upate']);
+      });
 });
 
 Route::middleware('CheckRole:admin')->group(function(){
