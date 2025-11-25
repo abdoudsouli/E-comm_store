@@ -11,10 +11,10 @@ class Permission extends Model
     use SoftDeletes;
 
    protected $fillable = [
-    'name_permission',
+    'permission_name',
     'display_name',
     'created_by',
-    'update_by'
+    'updated_by'
    ];
 
    public function staffaccounts(){

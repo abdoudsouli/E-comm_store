@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\RolesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -41,18 +42,19 @@ Route::middleware('CheckRole:super_admin')->group(function(){
      });
      //SatffAccountPermission
      Route::prefix('permission')->group(function(){
-       Route::get('/',[StaffaccountPermissionController::class,'index']);
-       Route::patch('/{id}/edit',[StaffaccountPermissionController::class,'edit']);
-       Route::post('/add',[StaffaccountPermissionController::class,'add_permission']);
-       Route::post('/{staff_id}/account',[StaffaccountPermissionController::class,'create_permission_account']);
-       Route::patch('/{staff_id}/account',[StaffaccountPermissionController::class,'edit_permission_account']);
+       Route::get('/',[PermissionController::class,'index']);
+       Route::get('/{id}',[PermissionController::class,'show']);
+       Route::patch('/{id}/update',[PermissionController::class,'update']);
+       Route::post('/create',[PermissionController::class,'create']);
+       Route::post('/delete',[PermissionController::class,'delete_permission']);
+       Route::post('/recover',[PermissionController::class,'recover_permission']);
      });
       //Roles
         Route::prefix('role')->group(function(){
         Route::get('/',[RolesController::class,'index']);
         Route::post('/create',[RolesController::class,'create']);
         Route::get('/{id}',[RolesController::class,'show']);
-        Route::patch('/{id}/edit',[RolesController::class,'update']);
+        Route::patch('/{id}/update',[RolesController::class,'update']);
         Route::post('/delete',[RolesController::class,'delete_role']);
         Route::post('/recover ',[RolesController::class,'recover_role']);
       });
