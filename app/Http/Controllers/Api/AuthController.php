@@ -14,33 +14,21 @@ class AuthController extends Controller
 {
    public function login(Request $request){
      try {
-        $validator = Validator::make(
+            $validator = Validator::make(
             $request->all(),
             [
               'email'=>'required|email',
               'password'=>'required|min:6|max:15'
-            ]
-        );
-
-        if ($validator->fails()) {
-           return ResponsesApi::error($validator->errors(),422);
-        }
-
+            ]);
+        if ($validator->fails()) return ResponsesApi::error($validator->errors());
         $staff = Staffaccount::where('email',$request->email)->first();
-
-        if (!$staff) {
-           return ResponsesApi::error('Your Password Or Email is incorrect!',422);
-        }
+        if (!$staff) return ResponsesApi::error('Your Password Or Email is incorrect!');
         $test_pass = Hash::check($request->password, $staff->password);
-          if (!$test_pass) {
-           return ResponsesApi::error('Your Password Or Email is incorrect!',422);
-        }
-    $staff->tokens()->delete();
-
-    $token = $staff->createToken('staff-token')->plainTextToken;
-
-    return ResponsesApi::data($token);
-
+        if (!$test_pass) return ResponsesApi::error('Your Password Or Email is incorrect!');
+        if($staff->active != 'active') return ResponsesApi::error('Your account has been inactive');
+        $staff->tokens()->delete();
+        $token = $staff->createToken('staff-token')->plainTextToken;
+        return ResponsesApi::data(null,null,'token',$token);
      } catch (\Exception $e) {
      return ResponsesApi::error('Error : could not login!',500);
      }

@@ -45,14 +45,16 @@ Route::middleware('CheckRole:super_admin')->group(function(){
        Route::patch('/{id}/edit',[StaffaccountPermissionController::class,'edit']);
        Route::post('/add',[StaffaccountPermissionController::class,'add_permission']);
        Route::post('/{staff_id}/account',[StaffaccountPermissionController::class,'create_permission_account']);
-        Route::patch('/{staff_id}/account',[StaffaccountPermissionController::class,'edit_permission_account']);
+       Route::patch('/{staff_id}/account',[StaffaccountPermissionController::class,'edit_permission_account']);
      });
-      //SatffAccountPermission
-      Route::prefix('role')->group(function(){
-         Route::get('/',[RolesController::class,'index']);
+      //Roles
+        Route::prefix('role')->group(function(){
+        Route::get('/',[RolesController::class,'index']);
         Route::post('/create',[RolesController::class,'create']);
-         Route::get('/{id}',[RolesController::class,'show']);
-          Route::patch('/edit',[RolesController::class,'upate']);
+        Route::get('/{id}',[RolesController::class,'show']);
+        Route::patch('/{id}/edit',[RolesController::class,'update']);
+        Route::post('/delete',[RolesController::class,'delete_role']);
+        Route::post('/recover ',[RolesController::class,'recover_role']);
       });
 });
 

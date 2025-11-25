@@ -13,7 +13,8 @@ class AccountController extends Controller
 {
        public function index(Request $request){
     try {
-         $staffaccountinfo = Staffaccount::find($request->user()->id)->first();
+         $staffaccountinfo = Staffaccount::select('first_name','last_name','phone_number','email','profil_img','active')
+         ->where('id',$request->user()->id)->first();
          if(!$staffaccountinfo) return ResponsesApi::error('User not found',404);
          return ResponsesApi::data($staffaccountinfo);
     } catch (\Exception $e) {
@@ -57,11 +58,12 @@ $validator = Validator::make(
     $phone_code = $request->phone_number_code;
     $phone_code = str_replace('+','',$phone_code);
     $phone = '+'.$phone_code.''.$phone;
-
+    $fullname = strtoupper($user->first_name).'-'.strtoupper($user->last_name);
     $data = $user->update([
         'first_name'=>$request->first_name,
          'last_name'=>$request->last_name,
-          'phone_number'=>$phone
+          'phone_number'=>$phone,
+          'updated_by'=>$fullname
     ]);
 
     if(!$data){

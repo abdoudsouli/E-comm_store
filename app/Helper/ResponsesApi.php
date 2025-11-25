@@ -19,7 +19,13 @@ class ResponsesApi {
 
     public static function error($message = 'Error', $code = 400)
     {
-        return response()->json(['success'=>false, 'message'=>$message], $code);
+         if(is_object($message)){
+        $errors = collect($message->toArray())->flatten()->values();
+        }else{
+        $errors = $message;
+        }
+
+        return response()->json(['success'=>false, 'message'=>$errors], $code);
     }
 
 }
