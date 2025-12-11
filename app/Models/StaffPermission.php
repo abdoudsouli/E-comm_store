@@ -2,31 +2,29 @@
 
 namespace App\Models;
 
-
 use App\Helper\DateFormat;
-use App\Models\Staffaccount;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class Role extends Model
+class StaffPermission extends Pivot
 {
     use SoftDeletes;
+     protected $table = 'permission_staffaccount';
 
     protected $fillable = [
-        'role_name',
-        'display_name',
+        'staffaccount_id',
+        'permission_id',
         'created_by',
-        'updated_by'
+        'updated_at',
     ];
 
-    protected $hiden = [
+    protected $hidden = [
         'created_at',
-        'updated_at'
+         'updated_at',
     ];
 
-    protected $appends =[
-        'created_at_carbon',
-        'updated_at_carbon'
+    protected $appends=[
+    'created_at_carbon','updated_at_carbon'
     ];
 
     public function getCreatedAtCarbonAttribute(){
@@ -37,9 +35,5 @@ class Role extends Model
     public function getUpdatedAtCarbonAttribute(){
         $dateformat = new DateFormat();
         return $dateformat->datetime($this->updated_at);
-    }
-
-    public function staffaccounts(){
-        return $this->hasMany(Staffaccount::class);
     }
 }

@@ -24,7 +24,6 @@ class ResponsesApi {
         }else{
         $errors = $message;
         }
-
         return response()->json(['success'=>false, 'message'=>$errors], $code);
     }
 
